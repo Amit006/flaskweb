@@ -1,45 +1,39 @@
-from os import name
-from flask import Flask, url_for, render_template, request, session, redirect
+#from os import name
+from flask import Flask, render_template
 from flask_mysqldb import MySQL
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 
 
-app = Flask(__name__, static_url_path="", static_folder="static")
+
+#app = Flask(__name__, static_url_path="", static_folder="static")
+app = Flask(__name__)
 # Bootstrap(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:N#123456@server/FlaskDB'
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:N#123456@server/FlaskDB'
+# db = SQLAlchemy(app)
 
 
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'N#123456'
-app.config['MYSQL_DB'] = 'FlaskDB'
+app.config['MYSQL_DB'] = 'FalskDb'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
-
-
-
-
-
 @app.route('/')
 def index():
-    return 'Hello, World!'
+    return render_template('Signup.html',)
 
-@app.route('/hello')
+@app.route('/SignIn')
 def hello():
-    return render_template('hello.html', name=name)
+    return render_template('Signin.html',)
 
 @app.route('/getData')
 def getData():
     cur = mysql.connection.cursor()
     cur.execute(''' select * from test''')
-    rv = cur.fetchall()
-    # conn.commit()
-    return str(rv)
-
-
-
+    results = cur.fetchall()
+    print(results)
+    return 'Done'
 
 if __name__ == '__main__':
     app.run(debug=True)
