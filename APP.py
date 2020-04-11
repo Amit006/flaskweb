@@ -1,17 +1,8 @@
-#from os import name
-from flask import Flask, render_template
+from flask import Flask,render_template,request
 from flask_mysqldb import MySQL
-# from flask_sqlalchemy import SQLAlchemy
 
 
-
-#app = Flask(__name__, static_url_path="", static_folder="static")
 app = Flask(__name__)
-# Bootstrap(app)
-
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:N#123456@server/FlaskDB'
-# db = SQLAlchemy(app)
-
 
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'N#123456'
@@ -19,21 +10,28 @@ app.config['MYSQL_DB'] = 'FalskDb'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
+
 @app.route('/')
-def index():
-    return render_template('Signup.html',)
+def home():
+    return render_template('SignIn.html')
 
-@app.route('/SignIn')
-def hello():
-    return render_template('Signin.html',)
 
-@app.route('/getData')
-def getData():
-    cur = mysql.connection.cursor()
-    cur.execute(''' select * from test''')
-    results = cur.fetchall()
-    print(results)
-    return 'Done'
+@app.route('/Signup')
+def about():
+    return render_template('Signup.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/SignIn_validation', methods=['post'])
+def SignIn_validation():
+    email=request.form.get('email')
+    password=request.form.get('password')
+    return " The email is {} and The password is{} ".format(email,password)
+
+
+if __name__ == "__main__":
+
+ app.run(debug=True)
