@@ -27,8 +27,8 @@ mysql = MySQL(app)
 
 
   # MODEL PORTION
-class RegistrationForm(Form):
-    username = StringField('Username', [validators.Length(min=4, max=25)])
+class SignupForm(Form):
+    Name = StringField('Name', [validators.Length(min=4, max=25)])
     email = StringField('Email Address', [validators.Length(min=6, max=35)])
     password = PasswordField('New Password', [
         validators.DataRequired(),
@@ -49,7 +49,7 @@ def index():
     return render_template('index.html', name='Amit Nayek')
 
 @app.route('/Signup')
-def SignUp():
+def Signup():
     return render_template('Signup.html',)
 
 @app.route('/SignIn', methods=['GET', 'POST'])
