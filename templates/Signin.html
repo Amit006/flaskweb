@@ -1,22 +1,83 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico') }}"/>
 
-    <title>Hello, world!</title>
-</head>
-<body>
-<h1>Hello, world!</h1>
+{%  include 'partials/login_css.html' %}
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-</body>
-</html>
+<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-form-title" id="loginBanner">
+					<span class="login100-form-title-1">
+						Sign In
+					</span>
+				</div>
+
+				{% with messages = get_flashed_messages(with_categories=true) %}
+					{% if messages %}
+
+						{% for category, message in messages %}
+
+							{% if category == "Success": %}
+							<div class="alert alert-info">
+								<strong>{{ message }} </strong>
+							</div>
+							{% endif %}
+
+							{% if category == "Error": %}
+							<div class="alert alert-warning">
+											{{ message }}
+											</div>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				{% endwith %}
+				<!--				{% from "Helper/_formhelpers.html" import render_field %}-->
+
+				<form class="login100-form validate-form" method="post" role="form">
+
+					<div class="wrap-input100 validate-input m-b-26" data-validate="Email is required">
+						<span class="label-input100">Email</span>
+						<input class="input100" type="text" name="email" placeholder="Enter Email">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+						<span class="label-input100">Password</span>
+						<input class="input100" type="password" name="password" placeholder="Enter password">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="flex-sb-m w-full p-b-30">
+						<div class="contact100-form-checkbox">
+							<input class="input-checkbox100" id="ckb1" type="checkbox" name="rememberMe">
+
+
+							<label class="label-checkbox100" for="ckb1">
+								Remember me
+							</label>
+						</div>
+
+						<div>
+							<a href="ForgetPassword" class="txt1">
+								Forgot Password?
+							</a>
+						</div>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Login
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<style>
+	#loginBanner {
+		background-image: url("{{ url_for('static', filename='images/bg-01.jpg') }}");
+	}
+</style>
+
+{%  include 'partials/login_js.html' %}
