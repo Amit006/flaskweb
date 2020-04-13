@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_mysqldb import MySQL
 from werkzeug.datastructures import MultiDict
 from wtforms import Form, BooleanField, StringField, PasswordField, validators
@@ -7,11 +7,13 @@ from wtforms.fields.html5 import EmailField
 
 from flask_bootstrap import Bootstrap
 # from flask_sqlalchemy import SQLAlchemy
+from flask_session import Session
 
 
 app = Flask(__name__, static_url_path="/static", static_folder="static")
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
+app.config['SESSION_TYPE'] = 'redis'
 
 bootstrap = Bootstrap(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:N#123456@server/FlaskDB'
@@ -102,5 +104,18 @@ def getData():
     print(results)
     return 'Done'
 
+
+@app.route('/set/')
+def set():
+    session['key'] = 'value'
+    return 'ok'
+
+@app.route('/get/')
+def get():
+    return session.get('key', 'not set')
+
+
 if __name__ == '__main__':
+    sess = Session()
+    sess.init_app(app)
     app.run(debug=True)
