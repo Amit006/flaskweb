@@ -1,79 +1,79 @@
-<div class="form">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico') }}"/>
 
-    <ul class="tab-group">
-        <li class="tab active"><a href="#signup">Sign Up</a></li>
-        <li class="tab"><a href="#login">Log In</a></li>
-    </ul>
+{%  include 'partials/login_css.html' %}
 
-    <div class="tab-content">
-        <div id="signup">
-            <h1>Sign Up for Free</h1>
-            <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css') }}">
-            <form action="/" method="post">
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="login100-form-title" id="loginBanner">
+					<span class="login100-form-title-1">
+						Sign Up
+					</span>
+            </div>
 
-                <div class="top-row">
-                    <div class="field-wrap">
-                        <label>
-                            First Name<span class="req">*</span>
-                        </label>
-                        <input type="text" required autocomplete="off" />
-                    </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
 
-                    <div class="field-wrap">
-                        <label>
-                            Last Name<span class="req">*</span>
-                        </label>
-                        <input type="text"required autocomplete="off"/>
-                    </div>
+            {% for category, message in messages %}
+
+            {% if category == "Success": %}
+            <div class="alert alert-info">
+                <strong>{{ message }} </strong>
+            </div>
+            {% endif %}
+
+            {% if category == "Error": %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <!--				{% from "Helper/_formhelpers.html" import render_field %}-->
+
+            <form class="login100-form validate-form" method="post" role="form">
+
+                <div class="wrap-input100 validate-input m-b-26" data-validate="Name is required">
+                    <span class="label-input100">Name</span>
+                    <input class="input100" type="text" name="username" placeholder="Enter Name">
+                    <span class="focus-input100"></span>
                 </div>
 
-                <div class="field-wrap">
-                    <label>
-                        Email Address<span class="req">*</span>
-                    </label>
-                    <input type="email"required autocomplete="off"/>
+                <div class="wrap-input100 validate-input m-b-26" data-validate="Email is required">
+                    <span class="label-input100">Email</span>
+                    <input class="input100" type="text" name="email" placeholder="Enter Email">
+                    <span class="focus-input100"></span>
                 </div>
 
-                <div class="field-wrap">
-                    <label>
-                        Password<span class="req">*</span>
-                    </label>
-                    <input type="password"required autocomplete="off"/>
+                <div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+                    <span class="label-input100">Password</span>
+                    <input class="input100" type="password" name="password" placeholder="Enter password">
+                    <span class="focus-input100"></span>
                 </div>
 
-                <button type="submit" class="button button-block"/>Get Started</button>
 
+                <div class="wrap-input100 validate-input m-b-18" data-validate = "Repeat Password is required">
+                    <span class="label-input100"> Confirm Password</span>
+                    <input class="input100" type="password" name="repassword" placeholder="Repeat Password">
+                    <span class="focus-input100"></span>
+                </div>
+
+
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn">
+                        Sign Up
+                    </button>
+                </div>
             </form>
-
         </div>
+    </div>
+</div>
 
-        <div id="login">
-            <h1>Welcome Back!</h1>
+<style>
+	#loginBanner {
+		background-image: url("{{ url_for('static', filename='images/bg-01.jpg') }}");
+	}
+</style>
 
-            <form action="/" method="post">
-
-                <div class="field-wrap">
-                    <label>
-                        Email Address<span class="req">*</span>
-                    </label>
-                    <input type="email"required autocomplete="off"/>
-                </div>
-
-                <div class="field-wrap">
-                    <label>
-                        Password<span class="req">*</span>
-                    </label>
-                    <input type="password"required autocomplete="off"/>
-                </div>
-
-                <p class="forgot"><a href="#">Forgot Password?</a></p>
-
-                <button class="button button-block"/>Log In</button>
-
-            </form>
-
-        </div>
-
-    </div><!-- tab-content -->
-
-</div> <!-- /form -->
+{%  include 'partials/login_js.html' %}
