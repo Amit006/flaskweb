@@ -1,3 +1,4 @@
+import re
 
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_mysqldb import MySQL
@@ -9,6 +10,7 @@ from wtforms.fields.html5 import EmailField
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
+from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
 
 
 app = Flask(__name__, static_url_path="/static", static_folder="static")
@@ -27,6 +29,7 @@ app.config['MYSQL_DB'] = 'FlaskDB'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
+bcrypt = Bcrypt(app)
 
 
   # MODEL PORTION
@@ -67,59 +70,72 @@ def SignUp():
 
         if form.validate():
 
-            flash(u'Successfully SignUP', 'Success')
+            pw_hash =  generate_password_hash(password).decode('utf-8')
             # con = mysql.connect()
             # cur = con.cursor()
             cur = mysql.connection.cursor()
-            cur.execute('''INSERT INTO 
-                  users (
-                      User_id,
-                      Uname,
-                      Uemail,
-                      Upassword
-                      )
-              VALUES (default ,%s,%s,%s)''', ( username, email, password))
-            mysql.connection.commit()
+            cur.execute(''' select * from users where Uemail=%s''', [email])
+            result = results = cur.fetchall()
+            print(' result: ', result, 'pw_hash:', pw_hash)
+            if(len(result) < 1):
+                cur.execute('''INSERT INTO 
+                      users (
+                          User_id,
+                          Uname,
+                          Uemail,
+                          Upassword
+                          )
+                  VALUES (default ,%s,%s,%s)''', ( username, email, pw_hash))
+                mysql.connection.commit()
+                flash(u'SignUP process Successfully.  ', 'Success')
+            else:
+                flash(u'You are a register user Please LogIn. ', 'Error')
+
             # return redirect(url_for('Dashboard'))
 
         else:
-            flash(u'All the form fields are required. ', 'Error')
+            errString = str(form.errors)
+            errString = re.sub(r'{*}*\[*\]*', '', errString)
+
+            flash(errString, 'Error')
 
     return render_template('Signup.html',)
 
 @app.route('/SignIn', methods=['GET', 'POST'])
 def SignIn():
+    results = ()
     form = SignInForm(request.form)
-    print("********************  from ********************")
-    print(request.form)
-    print('form: ', form)
-    print("********************  End *********************")
+
+    if (session.get('isLogIn')):
+        return redirect('Dashboard')
+
 
     if request.method == 'POST':
         password = request.form['password'] if request.form['password'] else ''
         email = request.form['email'] if request.form['email'] else ''
         rememberMe = True if 'rememberMe' in request.form else False
 
-
-        print(' validation status: ', form.validate())
-        print(' validation errors: ', form.errors)
-
         if form.validate():
-
-            # user = User(form.username.data, form.email.data,
-            #             form.password.data)
-            # db_session.add(user)
-
-            flash(u'Successfully SignIn', 'Success')
             cur = mysql.connection.cursor()
-            cur.execute(''' select * from  users where Uemail = %s''',(email))
+            cur.execute(''' select * from  users where Uemail = %s''',[email])
             results = cur.fetchall()
             print(' ****************** Results ***************')
             print(results)
-
+            if(len(results)):
+                if(check_password_hash(results[0]['Upassword'], password)):
+                    flash(u'Successfully SignIn', 'Success')
+                    session['users'] = results[0]
+                    session['isLogIn'] = True
+                    return redirect('Dashboard')
+                else:
+                    flash(u'Please Provide a Correct Password', 'Error')
+            else:
+                flash(u'You are not a Register User', 'Error')
             # return redirect(url_for('Dashboard'))
         else:
-            flash(u'All the form fields are required. ', 'Error')
+            errString = str(form.errors)
+            errString = re.sub(r'{*}*\[*\]*', '', errString)
+            flash(errString, 'Error')
 
     return render_template('Signin.html', form=form, results=results)
 
@@ -127,8 +143,19 @@ def SignIn():
 
 @app.route('/Dashboard')
 def Dashboard():
-    return render_template('Dashboard.html',)
+    print( ' sessionkey: ', session.get('isLogIn'))
+    if(session.get('isLogIn')):
+        # return render_template('user/partials/Dashboard.html', userData=session.get('users'))
+        return render_template('user/index.html', userData=session.get('users'),brandcamp='DAshboard', dynamic=True, pageName='Dashboard.html')
+    else:
+        return redirect('SignIn')
 
+
+@app.route('/Logout', methods=['GET'])
+def logout():
+    print(' from logout ')
+    session.clear()
+    return redirect('SignIn')
 
 @app.route('/ForgetPassword')
 def ForgotPassword():
@@ -147,6 +174,17 @@ def getData():
 @app.route('/set/')
 def set():
     session['key'] = 'value'
+    return 'ok'
+
+@app.route('/checkPassword/')
+def check():
+    password = '$2b$12$Pyq.f.irueih85MvgoW1Zey7c4oQbZJJnFzTYx8f/rWhKfebyuqya'
+    # result  = check_password_hash('password', password)
+    result = ''
+    resultPass = generate_password_hash('password').decode('utf-8')
+    print(' resultPass: ', resultPass, ' after encoding: ', resultPass)
+    result = check_password_hash(resultPass, 'password')
+    print(' result: ', result, ' resultPass: ', resultPass)
     return 'ok'
 
 @app.route('/get/')
