@@ -1,29 +1,107 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--     <title>Flask App</title>-->
+<!--        <header>Index Page </header>-->
+<!--         {%  include 'partials/css_only.html' %}-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container-fluid">-->
+<!--    <div class="col-lg-12">-->
+<!--        <div class="card" style="width: 18rem;">-->
+<!--      <img src="..." class="card-img-top" alt="...">-->
+<!--      <div class="card-body">-->
+<!--        <h5 class="card-title">Card with stretched link</h5>-->
+<!--        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--        <a href="SignIn" class="btn btn-primary stretched-link">Sign IN</a>-->
+<!--    </div>-->
+<!--    </div>-->
+<!--        <div class="card" style="width: 18rem;">-->
+<!--      <img src="" class="card-img-top" alt="">-->
+<!--      <div class="card-body">-->
+<!--        <h5 class="card-title">Card with stretched link</h5>-->
+<!--        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--        <a href="Signup" class="btn btn-primary stretched-link">Sign UP</a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--{%  include 'partials/js_only.html' %}-->
+<!--</html>-->
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Flask App</title>-->
+<!--    <header> Index Page </header>-->
+<!--    {%  include 'partials/css_only.html' %}-->
+<!--</head>-->
+<!--<body class="bg-nav">-->
+<!--<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/style.css')}}">-->
+<!--<div class="container-fluid">-->
+<!--    <div class="col-lg-12">-->
+<!--        <div class="card" style="width: 18rem;">-->
+<!--            <img src="..." class="card-img-top" alt="...">-->
+<!--            <div class="card-body text-light">-->
+<!--                <h5 class="card-title">Card with stretched link</h5>-->
+<!--                <p class="card-text ">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--                <a href="SignIn" class="btn btn-primary stretched-link">Sign IN</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="card" style="width: 18rem;">-->
+<!--            <img src="" class="card-img-top" alt="">-->
+<!--            <div class="card-body">-->
+<!--                <h5 class="card-title">Card with stretched link</h5>-->
+<!--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--                <a href="Signup" class="btn btn-primary stretched-link">Sign UP</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--{%  include 'partials/js_only.html' %}-->
+<!--</html>-->
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
-     <title>Flask App</title>
-        <header>Index Page </header>
-         {%  include 'partials/css_only.html' %}
+    <title>Flask App</title>
+    <header> Index Page </header>
+    {%  include 'partials/css_only.html' %}
 </head>
-<body>
-<div class="container-fluid">
+<body class="bg-nav">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/style.css')}}">
+
+<div class="container>
     <div class="col-lg-12">
         <div class="card" style="width: 18rem;">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card with stretched link</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="SignIn" class="btn btn-primary stretched-link">Sign IN</a>
-    </div>
-    </div>
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body text-light">
+                <h5 class="card-title">Card with stretched link</h5>
+                <p class="card-text ">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="SignIn" class="btn btn-primary stretched-link">Sign IN</a>
+            </div>
+        </div>
         <div class="card" style="width: 18rem;">
-      <img src="" class="card-img-top" alt="">
-      <div class="card-body">
-        <h5 class="card-title">Card with stretched link</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="Signup" class="btn btn-primary stretched-link">Sign UP</a>
-      </div>
-    </div>
+            <img src="" class="card-img-top" alt="">
+            <div class="card-body">
+                <h5 class="card-title">Card with stretched link</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="Signup" class="btn btn-primary stretched-link">Sign UP</a>
+            </div>
+        </div>
     </div>
 </div>
 </body>

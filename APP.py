@@ -64,7 +64,7 @@ def SignUp():
     if request.method == 'POST':
         username = request.form['username'] if request.form['username'] else ''
         email = request.form['email'] if request.form['email'] else ''
-        password = request.form['password'] if requestpyt.form['password'] else ''
+        password = request.form['password'] if request.form['password'] else ''
         confirm = request.form['repassword'] if request.form['repassword'] else ''
         print(' username: ', username, ' password: ', password, ' email: ', email, ' confirm: ', confirm)
 
@@ -89,7 +89,7 @@ def SignUp():
                           Email,
                           UPassword
                           )
-                  VALUES (default ,%s,%s,%s)''', ( username, Email, pw_hash))
+                  VALUES (default ,%s,%s,%s)''', ( username, email, pw_hash))
                 mysql.connection.commit()
                 flash(u'SignUP process Successfully.  ', 'Success')
             else:
