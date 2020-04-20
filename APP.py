@@ -1,5 +1,5 @@
 import re
-
+import redis
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_mysqldb import MySQL
 # from sqlalchemy.engine import default
@@ -47,6 +47,9 @@ class SignInForm(Form):
     password = PasswordField('password', [validators.DataRequired()])
     rememberMe = BooleanField('rememberMe')
 
+def connectRedis():
+    r = redis.Redis(host='localhost', port=6379, db=0)
+    return r
 
 @app.route('/')
 def index():
@@ -190,6 +193,19 @@ def check():
 @app.route('/get/')
 def get():
     return session.get('key', 'not set')
+
+@app.route('/setRedis/')
+def getRedis():
+    db = connectRedis()
+    db.set('foo', 'bar')
+    return 'set ok'
+
+@app.route('/getRedis/')
+def setRedis():
+    db = connectRedis()
+    return db.get('foo')
+
+
 
 
 if __name__ == '__main__':
