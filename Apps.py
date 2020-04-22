@@ -178,6 +178,13 @@ def _get_timeline(user_id):
     return timeline
 
 
+@app.route('/Post')
+def Post():
+
+    return render_template('user/index.html', userData=session.get('users'),brandcamp='POSTING SECTION', dynamic=True, pageName='post.html')
+
+
+
 @app.route('/Logout', methods=['GET'])
 def logout():
     print(' from logout ')
@@ -216,6 +223,7 @@ def check():
 @app.route('/get/')
 def get():
     return session.get('key', 'not set')
+
 
 
 
